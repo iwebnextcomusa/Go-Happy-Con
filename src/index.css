@@ -1,0 +1,110 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", system-ui, sans-serif;
+  --font-display: "Space Grotesk", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+  
+  --color-deep-blue: #0A2540;
+  --color-sky-blue: #3A86FF;
+  --color-neon-blue: #00F0FF;
+  --color-light-gray: #F5F7FA;
+  --color-dark-surface: #0E2E4E;
+}
+
+/* Custom UI Utilities */
+.glass-panel {
+  background: rgba(14, 46, 78, 0.45);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(58, 134, 255, 0.15);
+}
+
+.glass-panel-heavy {
+  background: rgba(10, 37, 64, 0.85);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(58, 134, 255, 0.25);
+}
+
+.glass-card-hover {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-card-hover:hover {
+  background: rgba(14, 46, 78, 0.65);
+  border-color: rgba(58, 134, 255, 0.4);
+  box-shadow: 0 10px 30px -10px rgba(58, 134, 255, 0.3);
+  transform: translateY(-4px);
+}
+
+.neon-border {
+  box-shadow: 0 0 15px rgba(58, 134, 255, 0.3);
+}
+
+.neon-text-blue {
+  text-shadow: 0 0 10px rgba(58, 134, 255, 0.6), 0 0 20px rgba(58, 134, 255, 0.3);
+}
+
+.neon-shadow-glow {
+  filter: drop-shadow(0 0 8px rgba(0, 240, 255, 0.4));
+}
+
+/* Scrollbar customizations */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0A2540;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(58, 134, 255, 0.3);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(58, 134, 255, 0.6);
+}
+
+/* Drone visual effects */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(1deg);
+  }
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 20s linear infinite;
+}
+
+@keyframes pulse-slow {
+  0%, 100% {
+    opacity: 0.2;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.4;
+    transform: scale(1.05);
+  }
+}
+
+.animate-pulse-slow {
+  animation: pulse-slow 8s ease-in-out infinite;
+}
+
