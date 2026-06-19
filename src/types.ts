@@ -31,7 +31,7 @@ export interface Testimonial {
   avatarUrl: string;
   content: string;
   rating: number;
-  service: "Real Estate Photography" | "Drone Power Washing" | "Police Misconduct Consulting";
+  service: "Real Estate Photography" | "Drone Power Washing" | "Police Misconduct Consulting" | "Expert Witness & Consulting";
 }
 
 export interface ContactFormData {

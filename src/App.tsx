@@ -158,11 +158,11 @@ export default function App() {
     },
     {
       id: "consulting",
-      title: "Police Misconduct Consulting",
+      title: "Expert Witness & Consulting",
       icon: ShieldAlert,
-      badge: "Compassionate Guidance",
-      shortDesc: "Expert advisory mapping out options, organizing chronological evidence, and documentation for individuals subjected to excessive force or civil rights infringement.",
-      features: ["Clear advice on PRA public records requests", "Incident chronology packaging for legal defense", "Documentation of physical injuries & vehicle damage", "Confidential case intake"]
+      badge: "Real-World Experience",
+      shortDesc: "Comprehensive expert witness, safety consultation, and case review services in Law Enforcement, Construction site safety, and Commercial Transportation backed by 45+ years of combined experience.",
+      features: ["Law Enforcement use-of-force & patrol tactics review", "CHST Certified construction site safety evaluations", "Commercial trucking conduct & hours of service", "Accident reconstruction & policy drafting support"]
     },
     {
       id: "washing",
@@ -276,13 +276,13 @@ export default function App() {
     },
     {
       id: "t3",
-      name: "D. Mitchell",
-      role: "Pierce County Resident",
-      company: "",
+      name: "Thomas Vance, Esq.",
+      role: "Principal Attorney",
+      company: "The Vance Litigation Firm",
       avatarUrl: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=150&q=80",
-      content: "When our rights were violated, we were completely lost and intimidated. Robert provided clear context on how to document everything, pull crucial dashcam files, and build a cohesive incident file. His guidance gave us the roadmap we needed.",
+      content: "Robert David's deep, dual-track background in law enforcement tactics and commercial transportation was a complete game-changer for our federal trial. His courtroom testimony was empirical, precise, and completely unshakable. I highly recommend him.",
       rating: 5,
-      service: "Police Misconduct Consulting"
+      service: "Expert Witness & Consulting"
     }
   ];
 
@@ -352,7 +352,7 @@ export default function App() {
                   </h1>
                   
                   <p className="text-base sm:text-lg text-gray-300 font-sans max-w-xl leading-relaxed">
-                    Based in scenic Gig Harbor, Washington, **Go Happy Con** bridges the gap between advanced aviation technology and professional consulting. We deliver premier real estate photography, high-tech drone exterior preservation, and compassionate police misconduct advisory.
+                    Based in scenic Gig Harbor, Washington, Go Happy Con bridges the gap between advanced aviation technology and professional consulting. We deliver premier real estate photography, high-tech drone exterior preservation, and compassionate police misconduct advisory.
                   </p>
 
                   <div className="flex flex-wrap gap-4 pt-2">
@@ -840,25 +840,53 @@ export default function App() {
           </div>
         )}
 
-        {/* TAB 3: POLICE MISCONDUCT CONSULTING */}
+        {/* TAB 3: EXPERT WITNESS & CONSULTING */}
         {activeTab === "consulting" && (
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16 animate-in fade-in duration-300 mt-6">
             
             {/* Header intro */}
-            <div className="text-center max-w-3xl mx-auto space-y-4">
-              <span className="text-sky-blue font-mono text-xs uppercase tracking-widest font-black">EMPATHETIC EVIDENCE ORGANIZING & CONSULTATION</span>
-              <h1 className="text-3xl sm:text-5xl font-display font-black text-white">Police Misconduct Consulting</h1>
-              <p className="text-gray-300 text-sm sm:text-base leading-relaxed">
-                Navigating the aftermath of excessive force, illegal arrests, or police mistreatment is an isolating, intimidating experience. We stand alongside individuals in Washington state to organize administrative evidence for maximum transparency.
+            <div className="text-center max-w-4xl mx-auto space-y-4">
+              <div className="inline-flex items-center space-x-2 bg-sky-blue/10 border border-sky-blue/20 px-3 py-1 rounded-full text-xs text-neon-blue font-mono">
+                <Award className="w-4 h-4" />
+                <span>CHST CERTIFIED & EXPERT WITNESS TESTIMONY</span>
+              </div>
+              <h1 className="text-4xl sm:text-5xl font-display font-black text-white uppercase tracking-tight">
+                Blue Line Safety & Consulting Group
+              </h1>
+              <p className="text-xl font-display text-sky-blue font-bold tracking-tight">
+                Robert David — Expert Witness | Safety & Law Enforcement Consultant
               </p>
+              <p className="text-gray-300 text-sm sm:text-base leading-relaxed max-w-3xl mx-auto">
+                Retired law enforcement professional and certified construction safety specialist with over **45 years of combined real-world experience**. Delivering expert witness testimony, policy analysis, and thorough chronological reports for attorneys, municipalities, insurers, and private firms nationwide.
+              </p>
+            </div>
+
+            {/* Quick Contact & Badges Bar */}
+            <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 max-w-5xl mx-auto py-4 px-6 bg-[#0E2E4E]/50 border border-sky-blue/20 rounded-2xl text-center">
+              <div>
+                <span className="block text-[10px] uppercase font-mono tracking-wider text-gray-400">CHST certified</span>
+                <span className="text-xs font-bold text-white">Washington State</span>
+              </div>
+              <div className="border-t sm:border-t-0 sm:border-l border-sky-blue/15 pt-2 sm:pt-0">
+                <span className="block text-[10px] uppercase font-mono tracking-wider text-gray-400">Law Enforcement</span>
+                <span className="text-xs font-bold text-white">20 Years Career</span>
+              </div>
+              <div className="border-t sm:border-t-0 sm:border-l border-sky-blue/15 pt-2 sm:pt-0">
+                <span className="block text-[10px] uppercase font-mono tracking-wider text-gray-400">OTR Commercial Driver</span>
+                <span className="text-xs font-bold text-white">20 Years CDL Driving</span>
+              </div>
+              <div className="border-t sm:border-t-0 sm:border-l border-sky-blue/15 pt-2 sm:pt-0">
+                <span className="block text-[10px] uppercase font-mono tracking-wider text-gray-400">Direct Contact</span>
+                <span className="text-xs font-bold text-neon-blue">253-888-3432</span>
+              </div>
             </div>
 
             {/* Crucial Legal Disclaimer callout immediately */}
             {showDisclaimer && (
-              <div id="legal-disclaimer-callout" className="bg-[#0A2540] border-l-4 border-amber-500 p-6 rounded-r-2xl shadow-md relative">
+              <div id="legal-disclaimer-callout" className="bg-[#0A2540] border-l-4 border-amber-500 p-6 rounded-r-2xl shadow-md relative max-w-5xl mx-auto">
                 <button
                   onClick={() => setShowDisclaimer(false)}
-                  className="absolute top-4 right-4 text-gray-400 hover:text-white text-xs cursor-pointer"
+                  className="absolute top-4 right-4 text-gray-400 hover:text-white text-xs cursor-pointer focus:outline-none"
                 >
                   ✕ Hide
                 </button>
@@ -867,104 +895,178 @@ export default function App() {
                     <ShieldCheck className="w-5 h-5" />
                   </div>
                   <div>
-                    <h4 className="font-display font-bold text-white text-sm">IMPORTANT LEGAL DISCLAIMER</h4>
-                    <p className="text-xs text-gray-300 mt-1 max-w-4xl leading-relaxed">
-                      Go Happy Con provides specialist consulting and evidence organizing solutions only. **We are not a law firm, we are not licensed attorneys, and we do not provide legal representation, legal advice, or file formal lawsuits.** We serve to package incident, injury, and administrative tracking files so victims of excessive force can cleanly deliver standard cases to professional civil rights attorneys.
+                    <h4 className="font-display font-bold text-white text-sm">IMPORTANT COMPLIANCE NOTE</h4>
+                    <p className="text-xs text-gray-300 mt-1 leading-relaxed">
+                      All expert witness and physical consultation safety services are provided in strict partnership with the **Shield of Armor Safety** team in Lacey, WA. Robert David serves as the chief consultant, providing fact-based evaluations, accident reconstructions, and testifying on civil and mechanical matters. We do not provide formal legal representation as practicing legal counsel of a firm, but rather package empirical proof for your active defense or prosecution attorneys.
                     </p>
                   </div>
                 </div>
               </div>
             )}
 
-            {/* Consulting Process Steps */}
+            {/* Areas of Expert Witness Testimony Grid */}
             <div className="space-y-8">
               <div className="text-center">
-                <span className="text-neon-blue font-mono text-[10px] tracking-widest uppercase font-bold">OUR METHODOLOGY</span>
-                <h3 className="text-2xl font-display font-black text-white mt-1">Our Step-by-Step Consulting Process</h3>
+                <span className="text-sky-blue font-mono text-xs tracking-widest uppercase font-black">EXPERT WITNESS AREAS</span>
+                <h3 className="text-2xl sm:text-3xl font-display font-black text-white mt-1">AREAS OF TESTIMONY & CONSULTATION</h3>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 {[
                   {
-                    step: "01",
-                    title: "Case Intake",
-                    desc: "Strictly confidential conversation outlining the incident variables. We help you list active witnesses and determine what police agencies were involved."
+                    title: "Law Enforcement",
+                    icon: ShieldAlert,
+                    color: "border-sky-blue/30 text-sky-blue",
+                    points: [
+                      "Patrol Tactics & Officer Survival",
+                      "Deadly Force Dynamics & Standards",
+                      "Alcohol-Related Driving (DUI/DWI)",
+                      "Narcotics Investigation Standards",
+                      "Informant Development & Handling",
+                      "Undercover Operation Protocols"
+                    ]
                   },
                   {
-                    step: "02",
-                    title: "Evidence Discovery",
-                    desc: "Providing templates and strategies to draft Public Records Act (PRA) requests for local police cruiser dashcams, officer bodycams, CAD logs, and internal incident printouts."
+                    title: "Construction Safety",
+                    icon: Award,
+                    color: "border-emerald-500/30 text-emerald-400",
+                    points: [
+                      "Accident Prevention Program (APP)",
+                      "Company APP Compliance Analysis",
+                      "Detailed Site evaluations",
+                      "OSHA Compliance & Violations",
+                      "Incident Investigation & root cause"
+                    ]
                   },
                   {
-                    step: "03",
-                    title: "Documentation Package",
-                    desc: "Organizing medical reports, physical injury tracking, and chronologies into a single clean digital case dossier. Perfect for review by civil defense lawyers."
+                    title: "Commercial Transport",
+                    icon: Waves,
+                    color: "border-amber-500/30 text-amber-400",
+                    points: [
+                      "Traffic Accident Reconstruction",
+                      "FMCSA / DOT Compliance",
+                      "OTR Driver Conduct & Hours",
+                      "Truck Accident Reconstruction",
+                      "US & Canada Cross-Border rules"
+                    ]
                   },
                   {
-                    step: "04",
-                    title: "Advisory Roadmap",
-                    desc: "Outlining your local options for administrative civil complaint filings or referral channels to dedicated civil defense attorney networks in Pierce County."
+                    title: "Policy & Training",
+                    icon: ShieldCheck,
+                    color: "border-purple-500/30 text-purple-400",
+                    points: [
+                      "Use-of-Force Policy Drafting",
+                      "Drug-Free Workplace Programs",
+                      "Security Risk Assessments",
+                      "Deadly Force Review Consulting"
+                    ]
                   }
-                ].map((item, idx) => (
-                  <div key={idx} className="bg-dark-surface/40 p-6 border border-sky-blue/15 rounded-2xl relative">
-                    <span className="absolute -top-3 -right-3 text-3xl font-display font-black text-sky-blue/20">{item.step}</span>
-                    <h4 className="font-display font-bold text-white text-base mb-2">{item.title}</h4>
-                    <p className="text-xs text-gray-300 leading-relaxed">{item.desc}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* FAQ ACCORDION SECTION */}
-            <div className="bg-[#0E2E4E]/50 border border-sky-blue/25 p-8 rounded-3xl space-y-8">
-              <div className="text-center max-w-2xl mx-auto">
-                <span className="text-sky-blue font-mono text-xs uppercase tracking-widest font-black">COMMON QUERIES</span>
-                <h3 className="text-2xl font-display font-extrabold text-white mt-1">FAQ & Guidelines</h3>
-              </div>
-
-              <div className="space-y-4 max-w-4xl mx-auto" id="faq-list-accordion">
-                {faqs.map((faq, fIdx) => {
-                  const isExpanded = expandedFAQ === fIdx;
+                ].map((quad, qidx) => {
+                  const QuadIcon = quad.icon;
                   return (
-                    <div
-                      key={fIdx}
-                      className="border border-sky-blue/15 rounded-xl overflow-hidden bg-[#0A2540]/60 transition-all"
-                    >
-                      <button
-                        onClick={() => setExpandedFAQ(isExpanded ? null : fIdx)}
-                        className="w-full flex justify-between items-center px-5 py-4 text-left font-display font-semibold text-sm sm:text-base text-white hover:bg-sky-blue/10 transition-colors cursor-pointer"
-                      >
-                        <span>{faq.question}</span>
-                        <ChevronDown className={`w-5 h-5 text-sky-blue transition-transform ${isExpanded ? "rotate-180 text-neon-blue" : ""}`} />
-                      </button>
-
-                      {isExpanded && (
-                        <div className="px-5 py-4 bg-dark-surface/50 border-t border-sky-blue/10 animate-in fade-in slide-in-from-top-1 duration-200">
-                          <p className="text-xs sm:text-sm text-gray-300 leading-relaxed font-sans">{faq.answer}</p>
+                    <div key={qidx} className={`bg-[#0E2E4E]/40 border ${quad.color} p-6 rounded-2xl flex flex-col justify-between hover:scale-[1.02] transition-all`}>
+                      <div>
+                        <div className="flex items-center gap-3 mb-4">
+                          <QuadIcon className="w-6 h-6 shrink-0" />
+                          <h4 className="font-display font-bold text-white text-base leading-snug">{quad.title}</h4>
                         </div>
-                      )}
+                        <ul className="space-y-2.5">
+                          {quad.points.map((p, pidx) => (
+                            <li key={pidx} className="text-xs text-gray-300 flex items-start gap-2">
+                              <span className="text-[#00F0FF] select-none">•</span>
+                              <span>{p}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
                     </div>
                   );
                 })}
               </div>
             </div>
 
+            {/* Credentials Section & Engagement Parameters */}
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 max-w-6xl mx-auto">
+              
+              {/* Credentials Card (Left) */}
+              <div className="lg:col-span-7 bg-[#0E2E4E]/40 border border-sky-blue/20 p-8 rounded-3xl space-y-6">
+                <div className="flex items-center gap-3 border-b border-sky-blue/15 pb-4">
+                  <Award className="w-7 h-7 text-neon-blue" />
+                  <h3 className="text-xl font-display font-black text-white">Credentials & Professional Experience</h3>
+                </div>
+
+                <ul className="space-y-3.5">
+                  {[
+                    "**20-Year Law Enforcement Career** — Municipal & Military Police",
+                    "**Appointed Board Member**, Deadly Force Review Board",
+                    "Specialties: Patrol Tactics, Officer Survival, Deadly Force Dynamics, DUI/DWI, Narcotics Investigations, Informant Handling",
+                    "**20-Year OTR Commercial Truck Driver** — US & Canada",
+                    "**5-Year Construction Safety Manager** in partnership with Shield of Armor Safety",
+                    "**CHST** — Construction Health & Safety Technician (Certified, Washington State State Code)",
+                    "**Accident Reconstruction** services available via retired law enforcement partnership"
+                  ].map((bullet, bidx) => (
+                    <li key={bidx} className="text-xs sm:text-sm text-gray-200 flex items-start gap-3">
+                      <span className="text-sky-blue shrink-0 mt-1 font-bold">✓</span>
+                      <span>
+                        {bullet.split("**").map((part, pidx) => pidx % 2 === 1 ? <strong key={pidx} className="text-neon-blue font-bold">{part}</strong> : part)}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+
+                <p className="text-[10px] text-gray-400 italic">
+                  *Official credentials, References, case files, and comprehensive Curriculum Vitae (CV) are immediately available upon professional request.
+                </p>
+              </div>
+
+              {/* Engagement Parameters (Right) */}
+              <div className="lg:col-span-5 bg-[#0A2540]/60 border border-sky-blue/20 p-8 rounded-3xl flex flex-col justify-between">
+                <div className="space-y-6">
+                  <div className="flex items-center gap-3 border-b border-sky-blue/15 pb-4">
+                    <Clock className="w-6 h-6 text-emerald-400" />
+                    <h3 className="text-lg font-display font-black text-white">Engagement Logistics</h3>
+                  </div>
+
+                  <div className="space-y-4">
+                    <div>
+                      <span className="text-[#00F0FF] font-mono text-[9px] uppercase tracking-wider block">AVAILABILITY</span>
+                      <p className="text-xs text-gray-200 mt-0.5">Part-time consulting - flexible scheduling, remote file and depositions review accepted.</p>
+                    </div>
+                    <div>
+                      <span className="text-[#00F0FF] font-mono text-[9px] uppercase tracking-wider block">FEE STRUCTURE</span>
+                      <p className="text-xs text-gray-200 mt-0.5">Professional hourly rate available upon inquiry. Standard retainer arrangements considered.</p>
+                    </div>
+                    <div>
+                      <span className="text-[#00F0FF] font-mono text-[9px] uppercase tracking-wider block">SERVICES INCLUDED</span>
+                      <p className="text-xs text-gray-200 mt-0.5">Comprehensive file review, written chronology reports, formal deposition testimony, trial testimony, policy drafting, and customized training.</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-[#0E2E4E] border border-sky-blue/20 rounded-xl p-4 mt-6 text-center space-y-1">
+                  <p className="text-[10px] text-[#00F0FF] font-mono uppercase tracking-widest font-black">Criminal Pro Bono Consideration</p>
+                  <p className="text-[10px] text-gray-300">Pro bono evaluation is considered on a selective basis under terms.</p>
+                </div>
+              </div>
+
+            </div>
+
             {/* Direct Intake Consultation CTA */}
-            <div className="text-center bg-[#0C2E4E] border border-sky-blue p-8 rounded-2xl space-y-4 max-w-3xl mx-auto">
-              <h4 className="text-xl font-display font-bold text-white">Need immediate documentation advice on an incident?</h4>
-              <p className="text-xs text-gray-300 max-w-lg mx-auto">
-                All consultations are treated with strict local confidentiality. Robert is a passionate advisory partner ready to guide you step-by-step.
+            <div className="text-center bg-gradient-to-r from-[#0C2E4E] to-[#0A2540] border border-sky-blue p-8 rounded-2xl space-y-4 max-w-3xl mx-auto shadow-xl">
+              <h4 className="text-xl font-display font-black text-white">Retain Robert David for Case Evaluation</h4>
+              <p className="text-xs text-gray-300 max-w-lg mx-auto leading-relaxed">
+                Send a secure inquiry describing your active litigation matter or policy drafting needs. General counsel of firms and corporate legal administrators receive a return call within 24 hours.
               </p>
               <div className="flex justify-center gap-4">
                 <button
                   onClick={() => {
-                    setContactService("Police Misconduct Consulting");
-                    setContactMessage("Hello Robert, I would like to request a confidential case review about an incident involving law enforcement.");
+                    setContactService("Expert Witness & Consulting");
+                    setContactMessage("Hello Robert, I would like to consult with you as an expert witness regarding an active litigation case.");
                     navigateTo("contact");
                   }}
-                  className="bg-sky-blue hover:bg-sky-blue/80 text-white font-bold py-2.5 px-6 rounded-full text-xs uppercase tracking-wider transition-all cursor-pointer"
+                  className="bg-sky-blue hover:bg-sky-blue/80 text-white font-bold py-2.5 px-6 rounded-full text-xs uppercase tracking-wider transition-all cursor-pointer shadow-md shadow-sky-blue/20"
                 >
-                  Request Confidential Intake
+                  Inquire Case retainer
                 </button>
               </div>
             </div>

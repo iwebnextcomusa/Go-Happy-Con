@@ -21,7 +21,7 @@ export function Navbar({ activeTab, setActiveTab }: NavbarProps) {
   const navItems = [
     { id: "home", label: "Home", icon: Compass },
     { id: "real-estate", label: "Real Estate Photography", icon: Camera },
-    { id: "consulting", label: "Police Misconduct Consulting", icon: ShieldAlert },
+    { id: "consulting", label: "Expert Witness & Consulting", icon: ShieldAlert },
     { id: "washing", label: "Drone Power Wash", icon: Waves },
     { id: "about", label: "About Us", icon: Info },
     { id: "contact", label: "Contact Us", icon: Mail },
