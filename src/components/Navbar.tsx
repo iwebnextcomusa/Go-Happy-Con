@@ -41,8 +41,8 @@ export function Navbar({ activeTab, setActiveTab }: NavbarProps) {
       id="main-navigation"
       className={`fixed top-0 left-0 w-full z-40 transition-all duration-300 ${
         isScrolled
-          ? "bg-[#0A2540]/90 backdrop-blur-md py-4 border-b border-sky-blue/20 shadow-lg shadow-deep-blue/40"
-          : "bg-transparent py-6"
+          ? "bg-[#0A2540]/90 backdrop-blur-md py-2 border-b border-sky-blue/20 shadow-lg shadow-deep-blue/40"
+          : "bg-transparent py-3"
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -51,17 +51,17 @@ export function Navbar({ activeTab, setActiveTab }: NavbarProps) {
           {/* Logo Brand Title */}
           <div
             id="brand-logo"
-            className="flex items-center space-x-3 cursor-pointer group"
+            className="flex items-center space-x-2.5 cursor-pointer group"
             onClick={() => handleNavClick("home")}
           >
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-sky-blue to-neon-blue flex items-center justify-center shadow-lg shadow-sky-blue/20 transition-transform group-hover:rotate-12 duration-300">
-              <span className="text-white font-display font-bold text-lg">G</span>
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-sky-blue to-neon-blue flex items-center justify-center shadow-lg shadow-sky-blue/20 transition-transform group-hover:rotate-12 duration-300">
+              <span className="text-white font-display font-bold text-base">G</span>
             </div>
             <div>
-              <span className="text-xl font-display font-bold tracking-tight bg-gradient-to-r from-white via-[#F5F7FA] to-sky-blue bg-clip-text text-transparent group-hover:text-neon-blue transition-colors">
+              <span className="text-lg font-display font-bold tracking-tight bg-gradient-to-r from-white via-[#F5F7FA] to-sky-blue bg-clip-text text-transparent group-hover:text-neon-blue transition-colors">
                 Go Happy Con
               </span>
-              <span className="block text-[10px] font-mono tracking-widest text-[#00F0FF] uppercase">
+              <span className="block text-[9px] font-mono tracking-widest text-[#00F0FF] uppercase leading-none">
                 Gig Harbor, WA
               </span>
             </div>
