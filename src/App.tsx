@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { 
   Camera, 
   ShieldAlert, 
@@ -21,9 +21,7 @@ import {
   User,
   ExternalLink,
   Lock,
-  ChevronLeft,
-  Volume2,
-  VolumeX
+  ChevronLeft
 } from "lucide-react";
 import { Navbar } from "./components/Navbar";
 import { Chatbot } from "./components/Chatbot";
@@ -35,17 +33,6 @@ export default function App() {
   const [activeTab, setActiveTab] = useState<string>("home");
   const [showScrollTop, setShowScrollTop] = useState<boolean>(false);
   const [showDisclaimer, setShowDisclaimer] = useState<boolean>(true);
-  
-  // Hero video mute control
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const [isVideoMuted, setIsVideoMuted] = useState<boolean>(true);
-  
-  const toggleMute = () => {
-    if (videoRef.current) {
-      videoRef.current.muted = !videoRef.current.muted;
-      setIsVideoMuted(videoRef.current.muted);
-    }
-  };
   
   // Power Washing Before/After slider control
   const [sliderPosition, setSliderPosition] = useState<number>(50);
@@ -352,12 +339,11 @@ export default function App() {
               {/* Background Video Player */}
               <div className="absolute inset-0 z-0">
                 <video 
-                  ref={videoRef}
                   autoPlay 
-                  muted={isVideoMuted}
+                  muted 
                   loop 
                   playsInline 
-                  className="w-full h-full object-cover opacity-[0.4]"
+                  className="w-full h-full object-cover opacity-25"
                   style={{ mixBlendMode: 'overlay' }}
                 >
                   <source src={heroBgVideo} type="video/mp4" />
@@ -366,20 +352,6 @@ export default function App() {
                 {/* Visual overlay gradient for seamless integration */}
                 <div className="absolute inset-0 bg-gradient-to-r from-[#0A2540] via-[#0A2540]/80 to-transparent"></div>
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0A2540] via-transparent to-transparent"></div>
-                
-                {/* Floating Speaker Control Button (Bottom Right) */}
-                <button
-                  onClick={toggleMute}
-                  className="absolute bottom-6 right-6 z-30 p-3 rounded-full border border-sky-blue/30 bg-[#0A2540]/70 backdrop-blur-md text-sky-blue hover:text-white hover:bg-neon-blue/20 hover:border-neon-blue/50 transition-all duration-300 shadow-lg shadow-sky-blue/25 active:scale-95 cursor-pointer flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-neon-blue"
-                  title={isVideoMuted ? "Unmute sound" : "Mute sound"}
-                  aria-label={isVideoMuted ? "Unmute sound" : "Mute sound"}
-                >
-                  {isVideoMuted ? (
-                    <VolumeX className="w-5 h-5 text-gray-400" />
-                  ) : (
-                    <Volume2 className="w-5 h-5 text-[#00F0FF] animate-pulse" />
-                  )}
-                </button>
               </div>
 
               <div className="relative z-10 max-w-4xl space-y-8 text-left">
