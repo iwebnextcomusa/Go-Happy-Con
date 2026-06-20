@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { 
   Camera, 
   ShieldAlert, 
@@ -21,7 +21,9 @@ import {
   User,
   ExternalLink,
   Lock,
-  ChevronLeft
+  ChevronLeft,
+  Volume2,
+  VolumeX
 } from "lucide-react";
 import { Navbar } from "./components/Navbar";
 import { Chatbot } from "./components/Chatbot";
@@ -29,9 +31,21 @@ import { ThreeDBackground } from "./components/ThreeDBackground";
 import { PricingPackage, Testimonial, GalleryPhoto, FAQItem } from "./types";
 
 export default function App() {
+  const heroBgVideo = new URL("./assets/hero_bg.mp4", import.meta.url).href;
   const [activeTab, setActiveTab] = useState<string>("home");
   const [showScrollTop, setShowScrollTop] = useState<boolean>(false);
   const [showDisclaimer, setShowDisclaimer] = useState<boolean>(true);
+  
+  // Hero video mute control
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [isVideoMuted, setIsVideoMuted] = useState<boolean>(true);
+  
+  const toggleMute = () => {
+    if (videoRef.current) {
+      videoRef.current.muted = !videoRef.current.muted;
+      setIsVideoMuted(videoRef.current.muted);
+    }
+  };
   
   // Power Washing Before/After slider control
   const [sliderPosition, setSliderPosition] = useState<number>(50);
@@ -334,14 +348,60 @@ export default function App() {
           <div className="animate-in fade-in slide-in-from-bottom-5 duration-500">
             
             {/* HERO SECTION */}
-            <header className="relative py-20 lg:py-32 overflow-hidden px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            <header className="relative py-24 lg:py-36 overflow-hidden px-8 sm:px-12 lg:px-16 max-w-7xl mx-auto rounded-3xl border border-sky-blue/20 bg-[#0E2E4E]/30 backdrop-blur-sm shadow-2xl my-6">
+              {/* Background Video Player */}
+              <div className="absolute inset-0 z-0">
+                <video 
+                  ref={videoRef}
+                  autoPlay 
+                  muted={isVideoMuted}
+                  loop 
+                  playsInline 
+                  className="w-full h-full object-cover opacity-[0.4]"
+                  style={{ mixBlendMode: 'overlay' }}
+                >
+                  <source src={heroBgVideo} type="video/mp4" />
+                  Your browser does not support the video tag.
+                </video>
+                {/* Visual overlay gradient for seamless integration */}
+                <div className="absolute inset-0 bg-gradient-to-r from-[#0A2540] via-[#0A2540]/80 to-transparent"></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0A2540] via-transparent to-transparent"></div>
+                
+                {/* Floating Speaker Control Button (Bottom Right) */}
+                <button
+                  onClick={toggleMute}
+                  className="absolute bottom-6 right-6 z-30 p-3 rounded-full border border-sky-blue/30 bg-[#0A2540]/70 backdrop-blur-md text-sky-blue hover:text-white hover:bg-neon-blue/20 hover:border-neon-blue/50 transition-all duration-300 shadow-lg shadow-sky-blue/25 active:scale-95 cursor-pointer flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-neon-blue"
+                  title={isVideoMuted ? "Unmute sound" : "Mute sound"}
+                  aria-label={isVideoMuted ? "Unmute sound" : "Mute sound"}
+                >
+                  {isVideoMuted ? (
+                    <VolumeX className="w-5 h-5 text-gray-400" />
+                  ) : (
+                    <Volume2 className="w-5 h-5 text-[#00F0FF] animate-pulse" />
+                  )}
+                </button>
+              </div>
+
+              <div className="relative z-10 max-w-4xl space-y-8 text-left">
                 
                 {/* Hero text panel */}
-                <div className="lg:col-span-7 space-y-8 text-left">
-                  <div className="inline-flex items-center space-x-2 bg-sky-blue/10 border border-sky-blue/30 px-3 py-1.5 rounded-full text-xs text-neon-blue font-mono font-medium tracking-wide">
-                    <Sparkles className="w-4.5 h-4.5 text-neon-blue animate-pulse" />
-                    <span>PROUDLY SERVING GIG HARBOR & PUGET SOUND</span>
+                <div className="space-y-8">
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+                    <div className="w-14 h-14 rounded-2xl overflow-hidden bg-[#0A2540] border border-sky-blue/30 flex items-center justify-center shadow-lg shadow-sky-blue/20 shrink-0">
+                      <img 
+                        src="/src/assets/images/happy_contractors_logo_1781969700244.jpg" 
+                        alt="Go Happy Con Logo" 
+                        className="w-full h-full object-cover"
+                        referrerPolicy="no-referrer"
+                      />
+                    </div>
+                    <div className="space-y-1">
+                      <div className="inline-flex items-center space-x-2 bg-sky-blue/10 border border-sky-blue/30 px-3 py-1.5 rounded-full text-xs text-neon-blue font-mono font-medium tracking-wide">
+                        <Sparkles className="w-4.5 h-4.5 text-neon-blue animate-pulse" />
+                        <span>PROUDLY SERVING KING, PIERCE & KITSAP COUNTIES</span>
+                      </div>
+                      <p className="text-xs text-gray-400 font-mono pl-1">Licensed drone pilot & professional consulting</p>
+                    </div>
                   </div>
                   
                   <h1 className="text-4xl sm:text-5xl lg:text-6xl font-display font-black tracking-tight text-white leading-tight">
@@ -351,7 +411,7 @@ export default function App() {
                     </span>
                   </h1>
                   
-                  <p className="text-base sm:text-lg text-gray-300 font-sans max-w-xl leading-relaxed">
+                  <p className="text-base sm:text-lg text-gray-300 font-sans max-w-2xl leading-relaxed">
                     Based in scenic Gig Harbor, Washington, Go Happy Con bridges the gap between advanced aviation technology and professional consulting. We deliver premier real estate photography, high-tech drone exterior preservation, and compassionate police misconduct advisory.
                   </p>
 
@@ -376,7 +436,7 @@ export default function App() {
                   </div>
 
                   {/* Highlights Bar */}
-                  <div className="grid grid-cols-3 gap-4 pt-6 border-t border-sky-blue/10">
+                  <div className="grid grid-cols-3 gap-6 pt-6 border-t border-sky-blue/10 max-w-lg">
                     <div>
                       <h4 className="text-xl sm:text-2xl font-bold font-display text-white">FAA</h4>
                       <p className="text-xs text-gray-400 font-mono">Part 107 Licensed</p>
@@ -388,40 +448,6 @@ export default function App() {
                     <div>
                       <h4 className="text-xl sm:text-2xl font-bold font-display text-white">24h</h4>
                       <p className="text-xs text-gray-400 font-mono">Photo Turnaround</p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Hero visual panel - interactive mock drone / cockpit stream overlay */}
-                <div className="lg:col-span-5 relative">
-                  <div className="w-full aspect-[4/3] rounded-3xl overflow-hidden border border-sky-blue/20 bg-[#0E2E4E]/60 backdrop-blur-md p-2 shadow-2xl relative group">
-                    <div className="absolute top-4 left-4 bg-red-600 px-2.5 py-1 rounded-md text-[9px] font-mono tracking-widest text-white uppercase flex items-center gap-1.5 animate-pulse z-10">
-                      <span className="w-1.5 h-1.5 bg-white rounded-full"></span>
-                      <span>STREAMING FEED</span>
-                    </div>
-
-                    <img 
-                      src="https://images.unsplash.com/photo-1473968512647-3e447244af8f?auto=format&fit=crop&w=800&q=80" 
-                      alt="UAV Drone Flying Puget Sound" 
-                      className="w-full h-full object-cover rounded-2xl group-hover:scale-105 transition-transform duration-700" 
-                    />
-
-                    {/* Cockpit Reticle Overlay */}
-                    <div className="absolute inset-0 border-[2px] border-dashed border-sky-blue/25 rounded-2xl pointer-events-none flex items-center justify-center m-4">
-                      <div className="w-24 h-24 border border-neon-blue/40 rounded-full flex items-center justify-center animate-spin-slow">
-                        <div className="w-12 h-12 border-t-2 border-b-2 border-neon-blue rounded-full"></div>
-                      </div>
-                      <span className="absolute bottom-4 left-4 text-[9px] font-mono text-gray-400">ALT: 180ft</span>
-                      <span className="absolute bottom-4 right-4 text-[9px] font-mono text-gray-400">GPS: GIG HARBOR, WA</span>
-                    </div>
-                  </div>
-                  
-                  {/* Floating badge */}
-                  <div className="absolute -bottom-6 -left-6 bg-gradient-to-r from-dark-surface to-[#0A2540] border border-sky-blue/30 px-5 py-4 rounded-2xl shadow-xl max-w-[200px] flex items-center space-x-3 backdrop-blur-lg">
-                    <Award className="w-10 h-10 text-neon-blue shrink-0 animate-bounce" />
-                    <div>
-                      <h4 className="font-display font-extrabold text-sm text-white">Tacoma & Pierce County</h4>
-                      <p className="text-[10px] text-gray-400">Local Service Leader</p>
                     </div>
                   </div>
                 </div>
@@ -559,9 +585,9 @@ export default function App() {
                         "Go Happy Con was founded on the idea that high-tech aviation should serve practical, urgent local needs. Whether helping homeowners maximize listing revenue, keeping roofs pristine without high-risk ladder damage, or standing as a beacon of organized documentation for local families in crisis — we deliver real solutions."
                       </p>
                       <div className="flex items-center space-x-3 mt-4 pt-4 border-t border-sky-blue/15">
-                        <div className="w-9 h-9 rounded-full bg-sky-blue/20 flex items-center justify-center font-display font-bold text-xs text-white">RB</div>
+                        <div className="w-9 h-9 rounded-full bg-sky-blue/20 flex items-center justify-center font-display font-bold text-xs text-white">RD</div>
                         <div>
-                          <h5 className="text-xs font-bold text-white">Robert B.</h5>
+                          <h5 className="text-xs font-bold text-white">Robert David</h5>
                           <p className="text-[10px] text-gray-400">Founder & Operator, Go Happy Con</p>
                         </div>
                       </div>
@@ -1236,7 +1262,7 @@ export default function App() {
               <span className="text-sky-blue font-mono text-xs uppercase tracking-widest font-black">THE INDIVIDUAL BEHIND GO HAPPY CON</span>
               <h1 className="text-3xl sm:text-5xl font-display font-black text-white">About Go Happy Con</h1>
               <p className="text-gray-300 text-sm sm:text-base leading-relaxed">
-                Founded in Gig Harbor, Washington — Go Happy Con represents Robert B's vision of local, high-integrity service. We utilize heavy aircraft, specialized camera platforms, and empirical file tracking to improve Puget Sound communities.
+                Founded in Gig Harbor, Washington — Go Happy Con represents Robert David's vision of local, high-integrity service. We utilize heavy aircraft, specialized camera platforms, and empirical file tracking to improve Puget Sound communities.
               </p>
             </div>
 
@@ -1246,7 +1272,7 @@ export default function App() {
                 <div>
                   <h3 className="text-2xl font-display font-extrabold text-white mb-2">Our Founder's Vision</h3>
                   <p className="text-sm text-gray-300 leading-relaxed">
-                    Robert B. started Go Happy Con with the firm belief that small businesses must adapt technology to meet client challenges. With extensive experience navigating local aviation rules (FAA Part 107) and civil support structures, Robert formulated three practical, highly-specialized divisions.
+                    Robert David started Go Happy Con with the firm belief that small businesses must adapt technology to meet client challenges. With extensive experience navigating local aviation rules (FAA Part 107) and civil support structures, Robert formulated three practical, highly-specialized divisions.
                   </p>
                 </div>
 
@@ -1318,7 +1344,7 @@ export default function App() {
               <span className="text-sky-blue font-mono text-xs uppercase tracking-widest font-black">STRIKE UP A CONVERSATION</span>
               <h1 className="text-3xl sm:text-5xl font-display font-black text-white">Contact Go Happy Con</h1>
               <p className="text-gray-300 text-sm sm:text-base leading-relaxed">
-                Connect directly with Robert B in Gig Harbor, WA. Call, email, or fill out the encrypted secure contact dispatch form below.
+                Connect directly with Robert David in Gig Harbor, WA. Call, email, or fill out the encrypted secure contact dispatch form below.
               </p>
             </div>
 
@@ -1364,10 +1390,27 @@ export default function App() {
                       <div>
                         <span className="text-[10px] text-teal-400 uppercase tracking-wider font-mono">DIRECT EMAIL</span>
                         <h4 className="text-lg font-display font-bold text-white group-hover:text-white transition-colors">rbd171@gmail.com</h4>
-                        <p className="text-xs text-gray-400 group-hover:text-white/80">Sent directly to Robert B.</p>
+                        <p className="text-xs text-gray-400 group-hover:text-white/80">Sent directly to Robert David.</p>
                       </div>
                     </div>
                   </a>
+
+                  {/* Official Business Card Attachment */}
+                  <div className="bg-[#0E2E4E]/40 border border-sky-blue/20 rounded-2xl overflow-hidden p-4 group">
+                    <span className="text-[9px] text-[#00F0FF] uppercase font-mono tracking-widest block mb-2 font-bold">OFFICIAL BUSINESS CARD</span>
+                    <div className="relative aspect-video rounded-xl overflow-hidden border border-sky-blue/15 shadow-md bg-white">
+                      <img 
+                        src="/src/assets/images/happy_contractors_card_1781969720151.jpg" 
+                        alt="Happy Contractors Business Card" 
+                        className="w-full h-full object-cover group-hover:scale-102 transition-transform duration-500"
+                        referrerPolicy="no-referrer"
+                      />
+                    </div>
+                    <div className="mt-3 flex items-center justify-between text-[11px] font-mono text-gray-400">
+                      <span>Robert David, Founder</span>
+                      <a href="tel:253-888-3432" className="text-neon-blue hover:underline">Direct Call</a>
+                    </div>
+                  </div>
 
                 </div>
 
@@ -1520,13 +1563,26 @@ export default function App() {
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             
             {/* Left coordinates info */}
-            <div className="text-center md:text-left space-y-1">
-              <p className="text-xs text-gray-400 font-mono">
-                &copy; 2026 Go Happy Con &mdash; Gig Harbor, Washington
-              </p>
-              <p className="text-[10px] text-gray-500 font-sans">
-                Professional UAV & Consulting Services &bull; Phone: <a href="tel:253-888-3432" className="hover:text-white transition-colors">253-888-3432</a>
-              </p>
+            <div className="text-center md:text-left flex flex-col items-center md:items-start gap-2">
+              <div className="flex items-center gap-2">
+                <div className="w-6 h-6 rounded-md overflow-hidden bg-[#0A2540] border border-sky-blue/25 flex items-center justify-center shrink-0">
+                  <img 
+                    src="/src/assets/images/happy_contractors_logo_1781969700244.jpg" 
+                    alt="Go Happy Con Logo" 
+                    className="w-full h-full object-cover"
+                    referrerPolicy="no-referrer"
+                  />
+                </div>
+                <span className="text-sm font-display font-bold text-white tracking-wider">Go Happy Con</span>
+              </div>
+              <div className="space-y-1">
+                <p className="text-xs text-gray-400 font-mono">
+                  &copy; 2026 Go Happy Con &mdash; Gig Harbor, Washington
+                </p>
+                <p className="text-[10px] text-gray-500 font-sans">
+                  Professional UAV & Consulting Services &bull; Phone: <a href="tel:253-888-3432" className="hover:text-white transition-colors">253-888-3432</a>
+                </p>
+              </div>
             </div>
 
             {/* Middle Nav Links */}

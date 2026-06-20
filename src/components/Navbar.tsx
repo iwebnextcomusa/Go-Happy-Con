@@ -54,8 +54,13 @@ export function Navbar({ activeTab, setActiveTab }: NavbarProps) {
             className="flex items-center space-x-2.5 cursor-pointer group"
             onClick={() => handleNavClick("home")}
           >
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-sky-blue to-neon-blue flex items-center justify-center shadow-lg shadow-sky-blue/20 transition-transform group-hover:rotate-12 duration-300">
-              <span className="text-white font-display font-bold text-base">G</span>
+            <div className="w-8 h-8 rounded-lg overflow-hidden border border-sky-blue/30 flex items-center justify-center shadow-lg shadow-sky-blue/20 transition-transform group-hover:rotate-12 duration-300 bg-[#0A2540]">
+              <img 
+                src="/src/assets/images/happy_contractors_logo_1781969700244.jpg" 
+                alt="Go Happy Con Logo" 
+                className="w-full h-full object-cover"
+                referrerPolicy="no-referrer"
+              />
             </div>
             <div>
               <span className="text-lg font-display font-bold tracking-tight bg-gradient-to-r from-white via-[#F5F7FA] to-sky-blue bg-clip-text text-transparent group-hover:text-neon-blue transition-colors">
