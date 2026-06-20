@@ -76,20 +76,18 @@ export function Navbar({ activeTab, setActiveTab }: NavbarProps) {
           {/* Desktop Navigation Links */}
           <div className="hidden lg:flex items-center space-x-1">
             {navItems.map((item) => {
-              const Icon = item.icon;
               const isActive = activeTab === item.id;
               return (
                 <button
                   key={item.id}
                   id={`nav-link-${item.id}`}
                   onClick={() => handleNavClick(item.id)}
-                  className={`flex items-center space-x-1.5 px-3.5 py-2 rounded-lg font-sans text-sm font-medium transition-all duration-200 cursor-pointer ${
+                  className={`flex items-center px-3.5 py-2 rounded-lg font-sans text-sm font-medium transition-all duration-200 cursor-pointer ${
                     isActive
                       ? "text-sky-blue bg-sky-blue/10 border border-sky-blue/25"
                       : "text-gray-300 hover:text-white hover:bg-white/5 border border-transparent"
                   }`}
                 >
-                  <Icon className={`w-4 h-4 ${isActive ? "text-neon-blue animate-pulse" : "text-gray-400"}`} />
                   <span>{item.label}</span>
                 </button>
               );
@@ -130,20 +128,18 @@ export function Navbar({ activeTab, setActiveTab }: NavbarProps) {
       >
         <div className="px-4 pt-2 pb-3 space-y-1.5">
           {navItems.map((item) => {
-            const Icon = item.icon;
             const isActive = activeTab === item.id;
             return (
               <button
                 key={item.id}
                 id={`mobile-nav-link-${item.id}`}
                 onClick={() => handleNavClick(item.id)}
-                className={`flex items-center space-x-3 w-full px-4 py-3 rounded-xl text-base font-semibold transition-all ${
+                className={`flex items-center w-full px-4 py-3 rounded-xl text-base font-semibold transition-all ${
                   isActive
                     ? "bg-sky-blue/20 text-sky-blue border-l-4 border-neon-blue"
                     : "text-gray-300 hover:text-white hover:bg-white/5"
                 }`}
               >
-                <Icon className={`w-5 h-5 ${isActive ? "text-[#00F0FF]" : "text-gray-400"}`} />
                 <span>{item.label}</span>
               </button>
             );

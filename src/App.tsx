@@ -371,7 +371,6 @@ export default function App() {
                     </div>
                     <div className="space-y-1">
                       <div className="inline-flex items-center space-x-2 bg-sky-blue/10 border border-sky-blue/30 px-3 py-1.5 rounded-full text-xs text-neon-blue font-mono font-medium tracking-wide">
-                        <Sparkles className="w-4.5 h-4.5 text-neon-blue animate-pulse" />
                         <span>PROUDLY SERVING KING, PIERCE & KITSAP COUNTIES</span>
                       </div>
                       <p className="text-xs text-gray-400 font-mono pl-1">Licensed drone pilot & professional consulting</p>
@@ -847,7 +846,6 @@ export default function App() {
             {/* Header intro */}
             <div className="text-center max-w-4xl mx-auto space-y-4">
               <div className="inline-flex items-center space-x-2 bg-sky-blue/10 border border-sky-blue/20 px-3 py-1 rounded-full text-xs text-neon-blue font-mono">
-                <Award className="w-4 h-4" />
                 <span>CHST CERTIFIED & EXPERT WITNESS TESTIMONY</span>
               </div>
               <h1 className="text-4xl sm:text-5xl font-display font-black text-white uppercase tracking-tight">
