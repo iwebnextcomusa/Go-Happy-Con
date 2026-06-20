@@ -343,7 +343,7 @@ export default function App() {
                   muted 
                   loop 
                   playsInline 
-                  className="w-full h-full object-cover opacity-25"
+                  className="w-full h-full object-cover opacity-50"
                   style={{ mixBlendMode: 'overlay' }}
                 >
                   <source src={heroBgVideo} type="video/mp4" />
