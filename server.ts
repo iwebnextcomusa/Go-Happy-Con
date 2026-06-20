@@ -76,16 +76,11 @@ app.post("/api/contact", (req, res) => {
   });
 });
 
-// Dynamic proxy to stream the remote background video on-the-fly and cache it securely
+let cachedSecurityCookie = "";
+
+// Dynamic proxy to stream the remote background video on-the-fly from the remote URL on every request
 app.get("/api/hero-bg.mp4", async (req, res) => {
   const videoUrl = "https://iwebnext.kesug.com/herobg.mp4";
-  const cachedPath = path.join(process.cwd(), "src/assets/hero_bg_cached.mp4");
-
-  // Ensure directories exist
-  const dir = path.dirname(cachedPath);
-  if (!fs.existsSync(dir)) {
-    fs.mkdirSync(dir, { recursive: true });
-  }
 
   // Helper function to get text content over HTTPS
   const fetchText = (url: string): Promise<string> => {
@@ -102,61 +97,72 @@ app.get("/api/hero-bg.mp4", async (req, res) => {
     });
   };
 
-  // Helper function to download file with specific cookie
-  const downloadWithCookie = (url: string, cookieVal: string, dest: string): Promise<void> => {
+  // Helper function to stream remote URL with specific cookie directly to client
+  const streamWithCookie = (url: string, cookieVal: string, clientRes: any): Promise<void> => {
     return new Promise((resolve, reject) => {
       const options = {
         headers: {
           'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-          'Cookie': '__test=' + cookieVal
+          'Cookie': cookieVal ? '__test=' + cookieVal : ''
         }
       };
-      https.get(url, options, (response) => {
-        if (response.statusCode && response.statusCode >= 300 && response.statusCode < 400 && response.headers.location) {
-          // If redirected, follow redirect
-          downloadWithCookie(response.headers.location, cookieVal, dest).then(resolve).catch(reject);
+      https.get(url, options, (remoteRes) => {
+        if (remoteRes.statusCode && remoteRes.statusCode >= 300 && remoteRes.statusCode < 400 && remoteRes.headers.location) {
+          streamWithCookie(remoteRes.headers.location, cookieVal, clientRes).then(resolve).catch(reject);
           return;
         }
-        if (response.statusCode !== 200) {
-          reject(new Error(`Download failed with status code ${response.statusCode}`));
+        if (remoteRes.statusCode !== 200) {
+          reject(new Error(`Stream got non-200 status code: ${remoteRes.statusCode}`));
           return;
         }
-        const fileStream = fs.createWriteStream(dest);
-        response.pipe(fileStream);
-        fileStream.on("finish", () => {
-          fileStream.close(() => resolve());
-        });
-        fileStream.on("error", (err) => {
-          fs.unlink(dest, () => {});
-          reject(err);
-        });
+
+        if (remoteRes.headers["content-type"]) {
+          clientRes.setHeader("content-type", remoteRes.headers["content-type"]);
+        } else {
+          clientRes.setHeader("content-type", "video/mp4");
+        }
+        if (remoteRes.headers["content-length"]) {
+          clientRes.setHeader("content-length", remoteRes.headers["content-length"]);
+        }
+        if (remoteRes.headers["accept-ranges"]) {
+          clientRes.setHeader("accept-ranges", remoteRes.headers["accept-ranges"]);
+        }
+
+        remoteRes.pipe(clientRes);
+        remoteRes.on("end", () => resolve());
+        remoteRes.on("error", (err) => reject(err));
       }).on("error", reject);
     });
   };
 
-  const serveCachedFile = () => {
-    return res.sendFile(cachedPath);
-  };
-
-  // If already cached and valid, serve immediately!
-  if (fs.existsSync(cachedPath) && fs.statSync(cachedPath).size > 1000000) {
-    return serveCachedFile();
+  // 1. Try streaming with current cached security cookie first (if any)
+  if (cachedSecurityCookie) {
+    try {
+      console.log("[Video Proxy] Attempting fast stream using cached security cookie...");
+      await streamWithCookie(`${videoUrl}?i=1`, cachedSecurityCookie, res);
+      return; // Succeeded!
+    } catch (e: any) {
+      console.log("[Video Proxy] Cached cookie expired/invalid. Re-resolving challenge...", e.message);
+    }
   }
 
+  // 2. Fetch challenge page and decipher cookie
   try {
-    console.log("[Video Proxy] Cache missed or invalid. Resolving security challenge...");
+    console.log("[Video Proxy] Fetching challenge to acquire security cookie...");
     const htmlPage = await fetchText(videoUrl);
-    const aesScript = await fetchText("https://iwebnext.kesug.com/aes.js");
-
+    
+    // Check if we got the challenge HTML
     const matchA = htmlPage.match(/a=toNumbers\(\"([a-f0-9]+)\"\)/);
     const matchB = htmlPage.match(/b=toNumbers\(\"([a-f0-9]+)\"\)/);
     const matchC = htmlPage.match(/c=toNumbers\(\"([a-f0-9]+)\"\)/);
 
     if (!matchA || !matchB || !matchC) {
-      console.warn("[Video Proxy] Challenge markers not found. Trying download without cookie...");
-      await downloadWithCookie(videoUrl, "", cachedPath);
-      return serveCachedFile();
+      console.warn("[Video Proxy] Challenge markers not found. Trying direct stream...");
+      await streamWithCookie(videoUrl, "", res);
+      return;
     }
+
+    const aesScript = await fetchText("https://iwebnext.kesug.com/aes.js");
 
     const aHex = matchA[1];
     const bHex = matchB[1];
@@ -177,17 +183,14 @@ app.get("/api/hero-bg.mp4", async (req, res) => {
     `;
 
     const decryptedCookie = vm.runInContext(runnerCode, context) as string;
-    console.log(`[Video Proxy] Decrypted security cookie: ${decryptedCookie}`);
+    cachedSecurityCookie = decryptedCookie; // cache in memory
+    console.log(`[Video Proxy] Successfully resolved security cookie: ${decryptedCookie}`);
 
-    const directUrl = `${videoUrl}?i=1`;
-    await downloadWithCookie(directUrl, decryptedCookie, cachedPath);
-    console.log(`[Video Proxy] Successfully downloaded and cached background video (Size: ${fs.statSync(cachedPath).size} bytes)`);
-
-    return serveCachedFile();
+    await streamWithCookie(`${videoUrl}?i=1`, decryptedCookie, res);
   } catch (error: any) {
-    console.error("[Video Proxy] Error loading video dynamically:", error.message);
+    console.error("[Video Proxy] Dynamic streaming error:", error.message);
     const fallbackVideoUrl = "https://assets.mixkit.co/videos/preview/mixkit-perfect-lawn-of-a-residential-house-4828-large.mp4";
-    console.log("[Video Proxy] Redirecting to handsome public drone real-estate fallback video...");
+    console.log("[Video Proxy] Falling back to remote drone video option...");
     return res.redirect(fallbackVideoUrl);
   }
 });
