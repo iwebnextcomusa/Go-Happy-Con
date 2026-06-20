@@ -29,7 +29,7 @@ import { ThreeDBackground } from "./components/ThreeDBackground";
 import { PricingPackage, Testimonial, GalleryPhoto, FAQItem } from "./types";
 
 export default function App() {
-  const heroBgVideo = new URL("./assets/hero_bg.mp4", import.meta.url).href;
+  const heroBgVideo = new URL("https://iwebnext.kesug.com/hero_bg.mp4", import.meta.url).href;
   const [activeTab, setActiveTab] = useState<string>("home");
   const [showScrollTop, setShowScrollTop] = useState<boolean>(false);
   const [showDisclaimer, setShowDisclaimer] = useState<boolean>(true);
