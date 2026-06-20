@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Camera, ShieldAlert, Waves, Info, Mail, Menu, X, Phone, Compass } from "lucide-react";
+import brandLogo from "../assets/images/happy_contractors_logo_1781969700244.jpg";
 
 interface NavbarProps {
   activeTab: string;
@@ -56,7 +57,7 @@ export function Navbar({ activeTab, setActiveTab }: NavbarProps) {
           >
             <div className="w-8 h-8 rounded-lg overflow-hidden border border-sky-blue/30 flex items-center justify-center shadow-lg shadow-sky-blue/20 transition-transform group-hover:rotate-12 duration-300 bg-[#0A2540]">
               <img 
-                src="/src/assets/images/happy_contractors_logo_1781969700244.jpg" 
+                src={brandLogo} 
                 alt="Go Happy Con Logo" 
                 className="w-full h-full object-cover"
                 referrerPolicy="no-referrer"

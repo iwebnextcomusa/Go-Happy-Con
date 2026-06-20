@@ -27,9 +27,11 @@ import { Navbar } from "./components/Navbar";
 import { Chatbot } from "./components/Chatbot";
 import { ThreeDBackground } from "./components/ThreeDBackground";
 import { PricingPackage, Testimonial, GalleryPhoto, FAQItem } from "./types";
+import brandLogo from "./assets/images/happy_contractors_logo_1781969700244.jpg";
+import businessCard from "./assets/images/happy_contractors_card_1781969720151.jpg";
+const heroBgVideo = "/api/hero-bg.mp4";
 
 export default function App() {
-  const heroBgVideo = new URL("https://iwebnext.kesug.com/hero_bg.mp4", import.meta.url).href;
   const [activeTab, setActiveTab] = useState<string>("home");
   const [showScrollTop, setShowScrollTop] = useState<boolean>(false);
   const [showDisclaimer, setShowDisclaimer] = useState<boolean>(true);
@@ -361,7 +363,7 @@ export default function App() {
                   <div className="flex flex-col sm:flex-row sm:items-center gap-4">
                     <div className="w-14 h-14 rounded-2xl overflow-hidden bg-[#0A2540] border border-sky-blue/30 flex items-center justify-center shadow-lg shadow-sky-blue/20 shrink-0">
                       <img 
-                        src="/src/assets/images/happy_contractors_logo_1781969700244.jpg" 
+                        src={brandLogo} 
                         alt="Go Happy Con Logo" 
                         className="w-full h-full object-cover"
                         referrerPolicy="no-referrer"
@@ -1372,7 +1374,7 @@ export default function App() {
                     <span className="text-[9px] text-[#00F0FF] uppercase font-mono tracking-widest block mb-2 font-bold">OFFICIAL BUSINESS CARD</span>
                     <div className="relative aspect-video rounded-xl overflow-hidden border border-sky-blue/15 shadow-md bg-white">
                       <img 
-                        src="/src/assets/images/happy_contractors_card_1781969720151.jpg" 
+                        src={businessCard} 
                         alt="Happy Contractors Business Card" 
                         className="w-full h-full object-cover group-hover:scale-102 transition-transform duration-500"
                         referrerPolicy="no-referrer"
@@ -1539,7 +1541,7 @@ export default function App() {
               <div className="flex items-center gap-2">
                 <div className="w-6 h-6 rounded-md overflow-hidden bg-[#0A2540] border border-sky-blue/25 flex items-center justify-center shrink-0">
                   <img 
-                    src="/src/assets/images/happy_contractors_logo_1781969700244.jpg" 
+                    src={brandLogo} 
                     alt="Go Happy Con Logo" 
                     className="w-full h-full object-cover"
                     referrerPolicy="no-referrer"

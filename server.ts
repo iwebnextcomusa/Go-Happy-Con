@@ -1,5 +1,8 @@
 import express from "express";
 import path from "path";
+import fs from "fs";
+import https from "https";
+import vm from "vm";
 import { createServer as createViteServer } from "vite";
 import { GoogleGenAI } from "@google/genai";
 import dotenv from "dotenv";
@@ -71,6 +74,122 @@ app.post("/api/contact", (req, res) => {
     message: "Thank you for contacting Go Happy Con! We have received your inquiry and will get back to you within 24 hours.",
     leadId: newLead.id
   });
+});
+
+// Dynamic proxy to stream the remote background video on-the-fly and cache it securely
+app.get("/api/hero-bg.mp4", async (req, res) => {
+  const videoUrl = "https://iwebnext.kesug.com/herobg.mp4";
+  const cachedPath = path.join(process.cwd(), "src/assets/hero_bg_cached.mp4");
+
+  // Ensure directories exist
+  const dir = path.dirname(cachedPath);
+  if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir, { recursive: true });
+  }
+
+  // Helper function to get text content over HTTPS
+  const fetchText = (url: string): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      https.get(url, {
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+        }
+      }, (response) => {
+        let body = "";
+        response.on("data", (chunk) => body += chunk);
+        response.on("end", () => resolve(body));
+      }).on("error", reject);
+    });
+  };
+
+  // Helper function to download file with specific cookie
+  const downloadWithCookie = (url: string, cookieVal: string, dest: string): Promise<void> => {
+    return new Promise((resolve, reject) => {
+      const options = {
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+          'Cookie': '__test=' + cookieVal
+        }
+      };
+      https.get(url, options, (response) => {
+        if (response.statusCode && response.statusCode >= 300 && response.statusCode < 400 && response.headers.location) {
+          // If redirected, follow redirect
+          downloadWithCookie(response.headers.location, cookieVal, dest).then(resolve).catch(reject);
+          return;
+        }
+        if (response.statusCode !== 200) {
+          reject(new Error(`Download failed with status code ${response.statusCode}`));
+          return;
+        }
+        const fileStream = fs.createWriteStream(dest);
+        response.pipe(fileStream);
+        fileStream.on("finish", () => {
+          fileStream.close(() => resolve());
+        });
+        fileStream.on("error", (err) => {
+          fs.unlink(dest, () => {});
+          reject(err);
+        });
+      }).on("error", reject);
+    });
+  };
+
+  const serveCachedFile = () => {
+    return res.sendFile(cachedPath);
+  };
+
+  // If already cached and valid, serve immediately!
+  if (fs.existsSync(cachedPath) && fs.statSync(cachedPath).size > 1000000) {
+    return serveCachedFile();
+  }
+
+  try {
+    console.log("[Video Proxy] Cache missed or invalid. Resolving security challenge...");
+    const htmlPage = await fetchText(videoUrl);
+    const aesScript = await fetchText("https://iwebnext.kesug.com/aes.js");
+
+    const matchA = htmlPage.match(/a=toNumbers\(\"([a-f0-9]+)\"\)/);
+    const matchB = htmlPage.match(/b=toNumbers\(\"([a-f0-9]+)\"\)/);
+    const matchC = htmlPage.match(/c=toNumbers\(\"([a-f0-9]+)\"\)/);
+
+    if (!matchA || !matchB || !matchC) {
+      console.warn("[Video Proxy] Challenge markers not found. Trying download without cookie...");
+      await downloadWithCookie(videoUrl, "", cachedPath);
+      return serveCachedFile();
+    }
+
+    const aHex = matchA[1];
+    const bHex = matchB[1];
+    const cHex = matchC[1];
+
+    const context = { slowAES: {} };
+    vm.createContext(context);
+    vm.runInContext(aesScript, context);
+
+    const runnerCode = `
+      function toNumbers(d){var e=[];d.replace(/(..)/g,function(d){e.push(parseInt(d,16))});return e}
+      function toHex(){for(var d=[],d=1==arguments.length&&arguments[0].constructor==Array?arguments[0]:arguments,e="",f=0;f<d.length;f++)e+=(16>d[f]?"0":"")+d[f].toString(16);return e.toLowerCase()}
+      var a = toNumbers("${aHex}");
+      var b = toNumbers("${bHex}");
+      var c = toNumbers("${cHex}");
+      var d = toHex(slowAES.decrypt(c, 2, a, b));
+      d;
+    `;
+
+    const decryptedCookie = vm.runInContext(runnerCode, context) as string;
+    console.log(`[Video Proxy] Decrypted security cookie: ${decryptedCookie}`);
+
+    const directUrl = `${videoUrl}?i=1`;
+    await downloadWithCookie(directUrl, decryptedCookie, cachedPath);
+    console.log(`[Video Proxy] Successfully downloaded and cached background video (Size: ${fs.statSync(cachedPath).size} bytes)`);
+
+    return serveCachedFile();
+  } catch (error: any) {
+    console.error("[Video Proxy] Error loading video dynamically:", error.message);
+    const fallbackVideoUrl = "https://assets.mixkit.co/videos/preview/mixkit-perfect-lawn-of-a-residential-house-4828-large.mp4";
+    console.log("[Video Proxy] Redirecting to handsome public drone real-estate fallback video...");
+    return res.redirect(fallbackVideoUrl);
+  }
 });
 
 // AI Chatbot endpoint proxying Gemini API securely
