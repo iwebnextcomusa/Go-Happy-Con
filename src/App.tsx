@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { 
+import {  
   Camera, 
   ShieldAlert, 
   Waves, 
@@ -29,7 +29,7 @@ import { ThreeDBackground } from "./components/ThreeDBackground";
 import { PricingPackage, Testimonial, GalleryPhoto, FAQItem } from "./types";
 import brandLogo from "./assets/images/happy_contractors_logo_1781969700244.jpg";
 import businessCard from "./assets/images/happy_contractors_card_1781969720151.jpg";
-const heroBgVideo = "https://vajok4vsxwgsevin.public.blob.vercel-storage.com/hero_bg.mp4.mp4";
+const heroBgVideo = "/api/hero-bg.mp4";
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<string>("home");
