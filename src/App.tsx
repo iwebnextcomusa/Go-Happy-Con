@@ -337,7 +337,7 @@ export default function App() {
           <div className="animate-in fade-in slide-in-from-bottom-5 duration-500">
             
             {/* HERO SECTION */}
-            <header className="relative py-24 lg:py-36 overflow-hidden px-8 sm:px-12 lg:px-16 max-w-7xl mx-auto rounded-3xl border border-sky-blue/20 bg-[#0E2E4E]/30 backdrop-blur-sm shadow-2xl my-6">
+            <header className="relative py-14 md:py-16 lg:py-20 overflow-hidden px-8 sm:px-12 lg:px-16 max-w-7xl mx-auto rounded-3xl border border-sky-blue/20 bg-[#0E2E4E]/30 backdrop-blur-sm shadow-2xl my-4">
               {/* Background Video Player */}
               <div className="absolute inset-0 z-0">
                 <video 
